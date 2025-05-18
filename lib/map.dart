@@ -26,7 +26,7 @@ class map extends StatelessWidget {
         MarkerLayer(
           markers: [
             Marker(
-              point: _currentPosition!,
+              point: _currentPosition,
               width: 80,
               height: 80,
               child: Container(
