@@ -17,7 +17,19 @@ class map extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterMap(
       mapController: _mapController,
-      options: MapOptions(initialCenter: _currentPosition!, initialZoom: 15),
+      options: MapOptions(
+        initialCenter: _currentPosition!, // Set initial center
+        initialZoom: 13, // Starting zoom level
+        maxZoom: 18,
+        minZoom: 3,
+        interactionOptions: const InteractionOptions(
+          flags: InteractiveFlag.all,
+        ),
+        keepAlive: true,
+        cameraConstraint: CameraConstraint.contain(
+          bounds: LatLngBounds(LatLng(-85.0, -180.0), LatLng(85.0, 180.0)),
+        ),
+      ),
       children: [
         TileLayer(
           urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
