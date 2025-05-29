@@ -115,7 +115,7 @@ class _MapScreenState extends State<MapScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Lat: ${_currentPosition!.latitude.toStringAsFixed(5)}\nLng: ${_currentPosition!.longitude.toStringAsFixed(5)}",
+              "Lat: ${_currentPosition!.latitude.toStringAsFixed(6)}\nLng: ${_currentPosition!.longitude.toStringAsFixed(6)}",
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
