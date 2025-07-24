@@ -15,6 +15,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   LatLng? _currentPosition;
   late final MapController _mapController;
+  bool _isMapReady = false;
 
   @override
   void initState() {
@@ -56,16 +57,23 @@ class _MapScreenState extends State<MapScreen> {
     final newPosition = LatLng(lat.toDouble(), lng.toDouble());
     setState(() => _currentPosition = newPosition);
 
-    try {
-      _mapController.move(newPosition, 15);
-    } catch (e) {
-      debugPrint('Error moving map: $e');
+    // Only try to move the map if it's ready and mounted
+    if (_isMapReady && mounted) {
+      try {
+        _mapController.move(newPosition, 15);
+      } catch (e) {
+        debugPrint('Error moving map: $e');
+      }
     }
   }
 
   void _centerMap() {
-    if (_currentPosition != null) {
-      _mapController.move(_currentPosition!, 15);
+    if (_currentPosition != null && _isMapReady && mounted) {
+      try {
+        _mapController.move(_currentPosition!, 15);
+      } catch (e) {
+        debugPrint('Error centering map: $e');
+      }
     }
   }
 
@@ -166,7 +174,15 @@ class _MapScreenState extends State<MapScreen> {
       ),
       body: Stack(
         children: [
-          map(mapController: _mapController, currentPosition: _currentPosition),
+          map(
+            mapController: _mapController, 
+            currentPosition: _currentPosition,
+            onMapReady: () {
+              setState(() {
+                _isMapReady = true;
+              });
+            },
+          ),
           _buildCoordinateOverlay(),
         ],
       ),
