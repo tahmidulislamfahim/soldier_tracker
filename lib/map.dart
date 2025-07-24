@@ -7,11 +7,13 @@ class map extends StatelessWidget {
     super.key,
     required MapController mapController,
     required LatLng? currentPosition,
+    this.onMapReady,
   }) : _mapController = mapController,
        _currentPosition = currentPosition;
 
   final MapController _mapController;
   final LatLng? _currentPosition;
+  final VoidCallback? onMapReady;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +31,12 @@ class map extends StatelessWidget {
         cameraConstraint: CameraConstraint.contain(
           bounds: LatLngBounds(LatLng(-85.0, -180.0), LatLng(85.0, 180.0)),
         ),
+        onMapReady: onMapReady,
       ),
       children: [
         TileLayer(
-          urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          subdomains: ['a', 'b', 'c'],
+          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+          userAgentPackageName: 'com.example.soldier_tracker',
         ),
         MarkerLayer(
           markers: [
